@@ -24,7 +24,7 @@ services:
       context: .
       dockerfile: Dockerfile
     restart: "always"
-    depends:
+    depends_on:
       - unoserver
     networks:
       - com

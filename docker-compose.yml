@@ -1,0 +1,32 @@
+version: "3"
+services:
+  unoserver:
+    image: "ghcr.io/nlif-m/docker-unoserver:master"
+    restart: "always"
+    expose:
+      - 2002
+      - 2003
+    command:
+      - "--uno-interface"
+      - "unoserver"
+      - "--interface"
+      - "unoserver"
+    networks:
+      - com
+  tgbot:
+    image: doc2pdf_bot
+    environment:
+      - TGUSERS=$TGUSERS
+      - TGTOKEN=$TGTOKEN
+      - UNO_SERVER=$UNO_SERVER
+      - UNO_SERVER_PORT=$UNO_SERVER_PORT
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: "always"
+    depends:
+      - unoserver
+    networks:
+      - com
+networks:
+  com: {}
